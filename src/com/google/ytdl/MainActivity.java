@@ -49,7 +49,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.plus.model.people.Person;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
@@ -84,6 +83,7 @@ public class MainActivity extends Activity implements
 	private static final int RESULT_PICK_IMAGE_CROP = 4;
 	private static final int RESULT_VIDEO_CAP = 5;
 	private static final int REQUEST_DIRECT_TAG = 6;
+	// private static final int MEDIA_TYPE_VIDEO = 7;
 	public static final String ACCOUNT_KEY = "accountName";
 	public static final String MESSAGE_KEY = "message";
 	public static final String YOUTUBE_ID = "youtubeId";
@@ -124,8 +124,7 @@ public class MainActivity extends Activity implements
 			ensureFetcher();
 
 			credential = GoogleAccountCredential.usingOAuth2(
-					getApplicationContext(),
-					Arrays.asList(Auth.SCOPES));
+					getApplicationContext(), Arrays.asList(Auth.SCOPES));
 			// set exponential backoff policy
 			credential.setBackOff(new ExponentialBackOff());
 
@@ -332,9 +331,9 @@ public class MainActivity extends Activity implements
 
 		case RESULT_VIDEO_CAP:
 			if (resultCode == RESULT_OK) {
+				Log.e(mFileURI.toString(), data.getData().toString());
 				mFileURI = data.getData();
 				if (mFileURI != null) {
-					Log.e("dfs", "sgcfghdhd");
 					Intent intent = new Intent(this, ReviewActivity.class);
 					intent.setData(mFileURI);
 					startActivity(intent);
@@ -534,22 +533,31 @@ public class MainActivity extends Activity implements
 		startActivityForResult(intent, REQUEST_DIRECT_TAG);
 	}
 
-    @Override
-    public void onConnected(String connectedAccountName) {
-        // Make API requests only when the user has successfully signed in.
-        loadData();
-    }
+	@Override
+	public void onConnected(String connectedAccountName) {
+		// Make API requests only when the user has successfully signed in.
+		loadData();
+	}
 
-    public void pickFile(View view) {
-		Intent intent = new Intent(Intent.ACTION_PICK); // TODO
-		// ACTION_GET_CONTENT
+	public void pickFile(View view) {
+		Intent intent = new Intent(Intent.ACTION_PICK);
 		intent.setType("video/*");
 		startActivityForResult(intent, RESULT_PICK_IMAGE_CROP);
 	}
 
 	public void recordVideo(View view) {
-		Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE); // TODO
-		// ACTION_GET_CONTENT
+		Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+
+		// Workaround for Nexus 7 Android 4.3 Intent Returning Null problem
+		// create a file to save the video in specific folder (this works for
+		// video only)
+		// mFileURI = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+		// intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileURI);
+
+		// set the video image quality to high
+		intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+		// start the Video Capture Intent
 		startActivityForResult(intent, RESULT_VIDEO_CAP);
 	}
 
@@ -588,6 +596,43 @@ public class MainActivity extends Activity implements
 		startActivityForResult(credential.newChooseAccountIntent(),
 				REQUEST_ACCOUNT_PICKER);
 	}
+
+	// public Uri getOutputMediaFile(int type)
+	// {
+	// // To be safe, you should check that the SDCard is mounted
+	// if(Environment.getExternalStorageState() != null) {
+	// // this works for Android 2.2 and above
+	// File mediaStorageDir = new
+	// File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
+	// "SMW_VIDEO");
+	//
+	// // This location works best if you want the created images to be shared
+	// // between applications and persist after your app has been uninstalled.
+	//
+	// // Create the storage directory if it does not exist
+	// if (! mediaStorageDir.exists()) {
+	// if (! mediaStorageDir.mkdirs()) {
+	// Log.d(TAG, "failed to create directory");
+	// return null;
+	// }
+	// }
+	//
+	// // Create a media file name
+	// String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+	// Locale.getDefault()).format(new Date());
+	// File mediaFile;
+	// if(type == MEDIA_TYPE_VIDEO) {
+	// mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+	// "VID_"+ timeStamp + ".mp4");
+	// } else {
+	// return null;
+	// }
+	//
+	// return Uri.fromFile(mediaFile);
+	// }
+	//
+	// return null;
+	// }
 
 	private class UploadBroadcastReceiver extends BroadcastReceiver {
 		@Override
