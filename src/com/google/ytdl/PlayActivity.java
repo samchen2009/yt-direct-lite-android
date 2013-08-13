@@ -192,5 +192,10 @@ public class PlayActivity extends Activity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+            NavUtils.navigateUpFromSameTask(this);
+    }
 }
