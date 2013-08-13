@@ -331,7 +331,6 @@ public class MainActivity extends Activity implements
 
 		case RESULT_VIDEO_CAP:
 			if (resultCode == RESULT_OK) {
-				Log.e(mFileURI.toString(), data.getData().toString());
 				mFileURI = data.getData();
 				if (mFileURI != null) {
 					Intent intent = new Intent(this, ReviewActivity.class);
