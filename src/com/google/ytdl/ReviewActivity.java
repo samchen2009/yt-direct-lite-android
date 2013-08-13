@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class ReviewActivity extends Activity {
@@ -40,7 +41,7 @@ public class ReviewActivity extends Activity {
 			mc.show();
 			mVideoView.start();
 		} catch (Exception e) {
-			Log.e("dfhdh", e.toString());
+			Log.e(this.getLocalClassName(), e.toString());
 		}
 	}
 
@@ -68,7 +69,11 @@ public class ReviewActivity extends Activity {
 			uploadIntent.setData(mFileUri);
 			uploadIntent.putExtra(MainActivity.ACCOUNT_KEY, mChosenAccountName);
 			startService(uploadIntent);
-			// mButton.setEnabled(false);
+            Toast.makeText(this,
+                    R.string.youtube_upload_started, Toast.LENGTH_LONG)
+                    .show();
+			// Go back to MainActivity after upload
+			finish();
 		}
 	}
 

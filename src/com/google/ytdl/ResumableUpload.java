@@ -211,8 +211,8 @@ public class ResumableUpload {
         final NotificationManager notifyManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Intent notificationIntent = new Intent(context, ReviewActivity.class);
-        notificationIntent.putExtra("videoId", videoId);
+        Intent notificationIntent = new Intent(context, PlayActivity.class);
+        notificationIntent.putExtra(MainActivity.YOUTUBE_ID, videoId);
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentTitle(context.getString(R.string.watch_your_video))

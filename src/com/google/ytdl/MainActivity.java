@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
@@ -47,7 +46,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -400,6 +399,9 @@ public class MainActivity extends Activity implements
 			}
 
 		}.execute((Void) null);
+        Toast.makeText(this,
+                R.string.video_submitted_to_ytdl, Toast.LENGTH_LONG)
+                .show();
 	}
 
 	@Override

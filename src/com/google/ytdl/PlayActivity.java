@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -168,6 +169,7 @@ public class PlayActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		intent = getIntent();
+		Log.e("ghjf",intent.toString());
 		String youtubeId = intent.getStringExtra(MainActivity.YOUTUBE_ID);
 		setContentView(R.layout.activity_play);
 		panToVideo(youtubeId);
