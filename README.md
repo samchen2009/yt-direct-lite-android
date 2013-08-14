@@ -14,3 +14,5 @@ To use this application,
 2) Include [Google Play Services library](http://developer.android.com/google/play-services/setup.html) into your project to build this application.
 
 5) Plug in your Playlist Id into Contants.java and Android API Key into Auth.java
+
+![alt tag](https://ytd-android.googlecode.com/files/YTDL.png)
