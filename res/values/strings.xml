@@ -30,10 +30,10 @@
     <string name="reauth_required">Re-login required</string>
     <string name="please_try_again">Please try again</string>
     <string name="cant_access_play">Can\'t access to Google Play services</string>
-    <string name="title_activity_play">PlayActivity</string>
+    <string name="title_activity_play">Click below to submit</string>
     <string name="action_settings">Settings</string>
     <string name="send">Click send</string>
-    <string name="title_activity_review">ReviewActivity</string>
+    <string name="title_activity_review">Click below to upload</string>
     <string name="hello_world">Hello world!</string>
     <string name="pick_one_of_your_videos_to_submit">Submit an existing YouTube video or upload a new video using the options below</string>
     <string name="no_videos_to_show_here_">No videos to show here.</string>
