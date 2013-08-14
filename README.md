@@ -16,3 +16,7 @@ To use this application,
 5) Plug in your Playlist Id into Contants.java and Android API Key into Auth.java
 
 ![alt tag](https://ytd-android.googlecode.com/files/YTDL.png)
+
+![alt tag](https://ytd-android.googlecode.com/files/YTDL-review.png)
+
+![alt tag](https://ytd-android.googlecode.com/files/YTDL-watch-video.png)
