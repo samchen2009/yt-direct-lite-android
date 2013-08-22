@@ -96,7 +96,6 @@ public class MainActivity extends Activity implements
 
 	private String mChosenAccountName;
 	private Uri mFileURI = null;
-	// private Handler mHandler = new Handler();
 
 	private VideoData mVideoData;
 
@@ -114,7 +113,7 @@ public class MainActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 
 		// Check to see if the proper keys and playlist IDs have been set up
-		if (!isCorrectlyConfigured()) { // TODO implement me
+		if (!isCorrectlyConfigured()) {
 			setContentView(R.layout.developer_setup_required);
 			showMissingConfigurations();
 		} else {
@@ -127,7 +126,6 @@ public class MainActivity extends Activity implements
 			// set exponential backoff policy
 			credential.setBackOff(new ExponentialBackOff());
 
-			// TODO check to remove
 			if (savedInstanceState != null) {
 				mChosenAccountName = savedInstanceState.getString(ACCOUNT_KEY);
 			} else {

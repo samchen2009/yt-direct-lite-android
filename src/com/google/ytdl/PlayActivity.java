@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
-
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.OnFullscreenListener;
@@ -168,10 +168,14 @@ public class PlayActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		intent = getIntent();
-		Log.e("ghjf",intent.toString());
-		String youtubeId = intent.getStringExtra(MainActivity.YOUTUBE_ID);
 		setContentView(R.layout.activity_play);
+		intent = getIntent();
+		Button submitButton = (Button) findViewById(R.id.submit_button);
+		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+			submitButton.setVisibility(View.GONE);
+			setTitle(R.string.playing_uploaded_video);
+		}
+		String youtubeId = intent.getStringExtra(MainActivity.YOUTUBE_ID);
 		panToVideo(youtubeId);
 	}
 

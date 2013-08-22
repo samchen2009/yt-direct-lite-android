@@ -160,7 +160,7 @@ public class UploadService extends IntentService {
         try {
             fileSize = getContentResolver().openFileDescriptor(mFileUri, "r").getStatSize();
             fileInputStream = getContentResolver().openInputStream(mFileUri);
-            videoId = ResumableUpload.upload(youtube, fileInputStream, fileSize, getApplicationContext());
+            videoId = ResumableUpload.upload(youtube, fileInputStream, fileSize, mFileUri, getApplicationContext());
         } catch (FileNotFoundException e) {
             Log.e(getApplicationContext().toString(), e.getMessage());
         } finally {

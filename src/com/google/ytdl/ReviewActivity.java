@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -25,10 +26,16 @@ public class ReviewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		setContentView(R.layout.activity_review);
+		Button uploadButton = (Button) findViewById(R.id.upload_button);
 		Intent intent = getIntent();
+		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+			uploadButton.setVisibility(View.GONE);
+			setTitle(R.string.playing_the_video_in_upload_progress);
+		}
 		mFileUri = intent.getData();
 		loadAccount();
-		setContentView(R.layout.activity_review);
+
 		reviewVideo(mFileUri);
 	}
 
@@ -69,9 +76,8 @@ public class ReviewActivity extends Activity {
 			uploadIntent.setData(mFileUri);
 			uploadIntent.putExtra(MainActivity.ACCOUNT_KEY, mChosenAccountName);
 			startService(uploadIntent);
-            Toast.makeText(this,
-                    R.string.youtube_upload_started, Toast.LENGTH_LONG)
-                    .show();
+			Toast.makeText(this, R.string.youtube_upload_started,
+					Toast.LENGTH_LONG).show();
 			// Go back to MainActivity after upload
 			finish();
 		}

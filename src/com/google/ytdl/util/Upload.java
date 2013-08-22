@@ -14,8 +14,6 @@
 
 package com.google.ytdl.util;
 
-import android.util.Log;
-
 import com.google.ytdl.Constants;
 
 public class Upload {

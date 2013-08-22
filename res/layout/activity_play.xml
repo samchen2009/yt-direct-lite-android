@@ -25,7 +25,7 @@
         android:background="#eee" >
 
         <Button
-            android:id="@+id/upload_button"
+            android:id="@+id/submit_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
