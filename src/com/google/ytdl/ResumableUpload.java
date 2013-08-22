@@ -14,11 +14,18 @@
 
 package com.google.ytdl;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Video.Thumbnails;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -36,8 +43,11 @@ import com.google.api.services.youtube.model.VideoStatus;
 import com.google.ytdl.util.Upload;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -73,19 +83,20 @@ public class ResumableUpload {
      */
 
     public static String upload(YouTube youtube, final InputStream fileInputStream,
-                                final long fileSize, final Uri mFileUri, final Context context) {
+                                final long fileSize, final Uri mFileUri, final String path,final Context context) {
         final NotificationManager notifyManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        
+         
         Intent notificationIntent = new Intent(context, ReviewActivity.class);
         notificationIntent.setData(mFileUri);
         notificationIntent.setAction(Intent.ACTION_VIEW);
+Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path, Thumbnails.MICRO_KIND);
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentTitle(context.getString(R.string.youtube_upload))
                 .setContentText(context.getString(R.string.youtube_upload_started))
-                .setSmallIcon(R.drawable.ic_stat_device_access_video).setContentIntent(contentIntent);
+                .setSmallIcon(R.drawable.ic_stat_device_access_video).setContentIntent(contentIntent).setStyle(new NotificationCompat.BigPictureStyle().bigPicture(thumbnail));
         notifyManager.notify(UPLOAD_NOTIFICATION_ID, builder.build());
 
         String videoId = null;
@@ -223,17 +234,27 @@ public class ResumableUpload {
         Intent notificationIntent = new Intent(context, PlayActivity.class);
         notificationIntent.putExtra(MainActivity.YOUTUBE_ID, videoId);
         notificationIntent.setAction(Intent.ACTION_VIEW);
+        
+        URL url;
+		try {
+			url = new URL("https://i1.ytimg.com/vi/"+videoId+"/mqdefault.jpg");
+			Bitmap thumbnail = BitmapFactory.decodeStream(url.openConnection().getInputStream());
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentTitle(context.getString(R.string.watch_your_video))
-                .setContentText(context.getString(R.string.see_the_newly_uploaded_video)).setContentIntent(contentIntent).setSmallIcon(R.drawable.ic_stat_device_access_video);
+                .setContentText(context.getString(R.string.see_the_newly_uploaded_video)).setContentIntent(contentIntent).setSmallIcon(R.drawable.ic_stat_device_access_video).setStyle(new NotificationCompat.BigPictureStyle().bigPicture(thumbnail));
         notifyManager.notify(PLAYBACK_NOTIFICATION_ID, builder.build());
         Log.d(TAG, String.format("Selectable notification for video ID [%s] posted", videoId));
+		} catch (MalformedURLException e) {
+			Log.e(TAG, e.getMessage());
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage());
+		}
     }
 
 
     /**
-     * @return true if the video is fully processed
+     * @return url of thumbnail if the video is fully processed
      */
     public static boolean checkIfProcessed(String videoId, YouTube youtube) {
         try {
@@ -246,7 +267,7 @@ public class ResumableUpload {
                 String status = video.getProcessingDetails().getProcessingStatus();
                 Log.e(TAG, String.format("Processing status of [%s] is [%s]", videoId, status));
                 if (status.equals(SUCCEEDED)) {
-                    return true;
+                	return true;
                 }
             } else {
                 // can't find the video

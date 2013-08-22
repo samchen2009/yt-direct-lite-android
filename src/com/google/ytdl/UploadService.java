@@ -16,7 +16,9 @@ package com.google.ytdl;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -160,7 +162,17 @@ public class UploadService extends IntentService {
         try {
             fileSize = getContentResolver().openFileDescriptor(mFileUri, "r").getStatSize();
             fileInputStream = getContentResolver().openInputStream(mFileUri);
-            videoId = ResumableUpload.upload(youtube, fileInputStream, fileSize, mFileUri, getApplicationContext());
+            String[] proj = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver().query(mFileUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+
+            videoId = ResumableUpload.upload(youtube, fileInputStream, fileSize, mFileUri, cursor.getString(column_index), getApplicationContext());
+            
+     
+
+
+
         } catch (FileNotFoundException e) {
             Log.e(getApplicationContext().toString(), e.getMessage());
         } finally {
