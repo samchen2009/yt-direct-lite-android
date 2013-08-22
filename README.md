@@ -19,4 +19,6 @@ To use this application,
 
 ![alt tag](https://ytd-android.googlecode.com/files/YTDL-review.png)
 
-![alt tag](https://ytd-android.googlecode.com/files/YTDL-watch-video.png)
+![alt tag](https://ytd-android.googlecode.com/files/YTDL-upload.png)
+
+![alt tag](https://ytd-android.googlecode.com/files/YTDL-watch.png)
