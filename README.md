@@ -1,4 +1,4 @@
-ytd-android
+YouTube Direct Lite for Android
 ===========
 
 The code is a reference implementation for an Android OS application that captures video, uploads it to YouTube, and submits the video to a [YouTube Direct Lite](http://code.google.com/p/youtube-direct-lite/) instance.
