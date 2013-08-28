@@ -3,11 +3,13 @@ YouTube Direct Lite for Android
 
 The code is a reference implementation for an Android OS application that captures video, uploads it to YouTube, and submits the video to a [YouTube Direct Lite](http://code.google.com/p/youtube-direct-lite/) instance.
 
+For more information, you can read the [Youtube API blog post](http://apiblog.youtube.com/2013/08/heres-my-playlist-so-submit-video-maybe.html).
+
 This application utilizes [YouTube Data API v3](https://developers.google.com/youtube/v3/) , [YouTube Android Player API](https://developers.google.com/youtube/android/player/), [YouTube Resumable Uploads](https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol?hl=en), [Google Play Services](https://developer.android.com/google/play-services/index.html) and [Plus API](https://developers.google.com/+/mobile/android/Google).
 
 To use this application,
 
-1) [Register your Android Player](https://developers.google.com/youtube/android/player/register)
+1) [Register your Android app](https://developers.google.com/youtube/android/player/register)
 
 2) Enable the YouTube Data API v3 and Google+ API in your [API Console](https://code.google.com/apis/console/).
 
